@@ -1,5 +1,5 @@
 export type THourlyWeather = {
-  FeelsLikeC: string;
+  tempC: string;
   chanceofrain: string;
   time: string;
   weatherCode: string;

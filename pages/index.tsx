@@ -88,6 +88,7 @@ const Home: NextPage = () => {
           ))}
         </tbody>
       </table>
+      {error && <div>에러가 발생했습니다.</div>}
       <div className={styles.update}>
         <span>Update: {updateTime.toLocaleString()}</span>
       </div>

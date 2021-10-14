@@ -4,12 +4,8 @@ import { TDailyWeather, THourlyWeather, TWeather } from "@typings/weather";
 import type { NextPage } from "next";
 import styles from "@styles/Home.module.css";
 import useSWR from "swr";
-import { weatherType } from "@lib/isRain";
-
-export const fetcher = (url: string) =>
-  fetch(url)
-    .then((res) => res.json())
-    .then((data) => data.weather);
+import { useState } from "react";
+import { weatherType } from "@lib/weatherType";
 
 const DAYS: {
   [key: number]: string;
@@ -20,6 +16,15 @@ const DAYS: {
 };
 
 const Home: NextPage = () => {
+  const [updateTime, setUpdateTime] = useState<Date>(new Date());
+
+  const fetcher = (url: string) => {
+    setUpdateTime(new Date());
+    return fetch(url)
+      .then((res) => res.json())
+      .then((data) => data.weather);
+  };
+
   const { data, error } = useSWR<TWeather>(
     "https://wttr.in/yeongju?lang=en&format=j1",
     fetcher,
@@ -83,7 +88,9 @@ const Home: NextPage = () => {
           ))}
         </tbody>
       </table>
-      {error && <div>failed to load</div>}
+      <div className={styles.update}>
+        <span>Update: {updateTime.toLocaleString()}</span>
+      </div>
     </div>
   );
 };

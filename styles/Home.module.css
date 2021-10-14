@@ -2,10 +2,8 @@
   min-height: 100vh;
   height: 100vh;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding: 2.5rem;
+  padding-top: 10rem;
 }
 
 .weatherTable {
@@ -75,4 +73,10 @@ tbody .weatherDaily:not(:last-child) td:not(:first-child) {
 
 .snow {
   color: #ccc;
+}
+
+.update {
+  text-align: right;
+  color: #666;
+  font-size: 0.875rem;
 }

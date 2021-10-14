@@ -22,6 +22,6 @@
     "typescript": "4.4.4"
   },
   "browserslist": {
-    "ios": "9"
+    "iOS": "9"
   }
 }

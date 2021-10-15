@@ -14,122 +14,117 @@ const { styled } = createStitches({
 });
 
 export const Container = styled("div", {
-  minHeight: "100vh",
   height: "100vh",
-  width: "100%",
-  padding: "2.5rem",
+  width: "100vw",
+
   display: "flex",
-  flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
+
+  flexDirection: "column",
 });
 
-export const Weather = styled("div", {
-  display: "flex",
-  flexDirection: "column",
+export const WeatherTable = styled("table", {
+  borderCollapse: "collapse",
+});
 
-  "& > .times": {
-    display: "flex",
-    flexDirection: "row",
+export const WeatherHeadCell = styled("th", {
+  paddingBottom: "1rem",
+  fontSize: "1.25rem",
+  fontWeight: "500",
 
-    "& > .time": {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      fontSize: "1.2rem",
-      paddingBottom: "1rem",
-
-      "&:not(:first-child)": {
-        borderBottom: "1px solid $mauve9",
-      },
-    },
+  "&:not(:first-child)": {
+    borderBottom: "1px solid $mauve9",
   },
+});
 
-  "& > .days": {
+export const WeatherBodyRow = styled("tr", {
+  "&:not(:last-child) td:not(:first-child)": {
+    borderBottom: "1px solid $mauve9",
+  },
+});
+
+export const WeatherBodyDayCell = styled("td", {
+  wordBreak: "keep-all",
+  fontSize: "1.5rem",
+  padding: "0.5rem",
+});
+
+export const WeatherBodyInfoCell = styled("td", {
+  "& > div": {
     display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    padding: "2rem 1rem",
+    gap: "1rem",
+  },
+});
 
-    "& > .day": {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      fontSize: "1.5rem",
-    },
+export const WeatherBodyInfoTempCell = styled("div", {
+  display: "flex",
+  flexDirection: "row",
+  padding: "0 1rem",
 
-    "& > .hour": {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      padding: "2rem 1rem",
-      gap: "1rem",
-
-      "& > .temp-container": {
-        "& > .temp-value": {
-          fontSize: "1.25rem",
-
-          "&.cold": {
-            color: "$blue7",
-            fontWeight: "900",
-          },
-          "&.cool": {
-            color: "$blue9",
-            fontWeight: "700",
-          },
-          "&.mild": {
-            color: "$mauve12",
-          },
-          "&.warm": {
-            color: "$orange9",
-            fontWeight: "700",
-          },
-          "&.hot": {
-            color: "$tomato9",
-            fontWeight: "900",
-          },
-        },
-
-        "& > .temp-degree": {
-          fontSize: "0.875rem",
-          fontWeight: "300",
-        },
+  variants: {
+    temperature: {
+      cold: {
+        backgroundColor: "$blue9",
+        color: "$blue1",
+        fontWeight: 700,
       },
-
-      "& > .svg-container": {
-        width: "8vw",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-
-        "& > .rain": {
-          color: "$blue9",
-        },
-        "& > .snow": {
-          color: "$blue4",
-        },
-        "& > .cloud": {
-          color: "$mauve9",
-        },
-        "& > .sun": {
-          color: "$orange8",
-        },
+      cool: {
+        backgroundColor: "$blue5",
+        color: "$blue12",
       },
-    },
-
-    "&:not(:last-child) > .hour": {
-      borderBottom: "1px solid $mauve7",
+      mild: {
+        color: "$mauve12",
+      },
+      warm: {
+        backgroundColor: "$orange9",
+        color: "$orange1",
+        fontWeight: "700",
+      },
+      hot: {
+        backgroundColor: "$tomato9",
+        color: "$tomato1",
+        fontWeight: "900",
+      },
+      hottest: {
+        backgroundColor: "$tomato9",
+        color: "$tomato1",
+      },
     },
   },
+});
 
-  "& > .row": {
-    "& > div": {
-      "&:first-child": {
-        width: "4%",
+export const WeatherBodyInfoTempValue = styled("span", {
+  fontSize: "1.25rem",
+});
+
+export const WeatherBodyInfoTempUnit = styled("span", {
+  fontSize: "0.75rem",
+  fontWeight: 300,
+});
+
+export const WeatherBodyInfoSVGWrapper = styled("div", {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+
+  variants: {
+    weather: {
+      sun: {
+        color: "$orange7",
       },
-
-      "&:not(:first-child)": {
-        width: "12%",
+      cloud: {
+        color: "$mauve9",
+      },
+      rain: {
+        color: "$blue9",
+      },
+      snow: {
+        color: "$tomato4",
       },
     },
   },

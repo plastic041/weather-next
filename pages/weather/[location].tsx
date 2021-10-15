@@ -1,5 +1,16 @@
 import { Cloud, CloudRain, CloudSnow, Sun } from "react-feather";
-import { Container, Update, Weather } from "@styles/weather";
+import {
+  Container,
+  Update,
+  WeatherBodyDayCell,
+  WeatherBodyInfoCell,
+  WeatherBodyInfoSVGWrapper,
+  WeatherBodyInfoTempCell,
+  WeatherBodyInfoTempValue,
+  WeatherBodyRow,
+  WeatherHeadCell,
+  WeatherTable,
+} from "@styles/weather";
 import React, { useState } from "react";
 import { TDailyWeather, THourlyWeather, TWeather } from "@typings/weather";
 
@@ -15,6 +26,31 @@ const DAYS: {
   0: "오늘",
   1: "내일",
   2: "모레",
+};
+
+const formatDate = (date: Date) => {
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return `${month}-${day}`;
+};
+
+const WeatherSVG = (code: string) => {
+  const options = {
+    width: "80%",
+    height: "80%",
+    strokeWidth: "1",
+  };
+
+  switch (code) {
+    case "rain":
+      return <CloudRain size={24} {...options} strokeWidth="2" />;
+    case "snow":
+      return <CloudSnow size={24} {...options} />;
+    case "cloud":
+      return <Cloud size={24} {...options} />;
+    default:
+      return <Sun size={24} {...options} />;
+  }
 };
 
 const Home: NextPage = () => {
@@ -34,12 +70,6 @@ const Home: NextPage = () => {
     { refreshInterval: 1000 * 60 * 60 * 3 }
   );
 
-  const SVGOptions = {
-    width: "80%",
-    height: "80%",
-    strokeWidth: "1",
-  };
-
   if (!data)
     return (
       <Container>
@@ -51,51 +81,54 @@ const Home: NextPage = () => {
 
   return (
     <Container>
-      <Weather>
-        <div className="times row">
-          <div className="time"></div>
-          <div className="time">0</div>
-          <div className="time">3</div>
-          <div className="time">6</div>
-          <div className="time">9</div>
-          <div className="time">12</div>
-          <div className="time">15</div>
-          <div className="time">18</div>
-          <div className="time">21</div>
-        </div>
-        {data?.map((daily: TDailyWeather, index: number) => (
-          <div className="days row" key={daily.date}>
-            <div className="day">{DAYS[index]}</div>
-            {daily.hourly.map((hourly: THourlyWeather) => (
-              <div key={hourly.time} className="hour">
-                <div className="temp-container">
-                  <span
-                    className={`temp-value ${tempFeel(Number(hourly.tempC))}`}
-                  >
-                    {hourly.tempC}
-                  </span>
-                  <span className="temp-degree">℃</span>
-                </div>
-                <div className="svg-container">
-                  {weatherType(hourly.weatherCode) === "rain" ? (
-                    <CloudRain
-                      {...SVGOptions}
-                      strokeWidth="2"
-                      className="rain"
-                    />
-                  ) : weatherType(hourly.weatherCode) === "snow" ? (
-                    <CloudSnow {...SVGOptions} className="snow" />
-                  ) : weatherType(hourly.weatherCode) === "cloud" ? (
-                    <Cloud {...SVGOptions} className="cloud" />
-                  ) : (
-                    <Sun {...SVGOptions} className="sun" />
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        ))}
-      </Weather>
+      <WeatherTable>
+        <thead>
+          <tr className="times row">
+            <WeatherHeadCell className="time"></WeatherHeadCell>
+            <WeatherHeadCell className="time">0</WeatherHeadCell>
+            <WeatherHeadCell className="time">3</WeatherHeadCell>
+            <WeatherHeadCell className="time">6</WeatherHeadCell>
+            <WeatherHeadCell className="time">9</WeatherHeadCell>
+            <WeatherHeadCell className="time">12</WeatherHeadCell>
+            <WeatherHeadCell className="time">15</WeatherHeadCell>
+            <WeatherHeadCell className="time">18</WeatherHeadCell>
+            <WeatherHeadCell className="time">21</WeatherHeadCell>
+          </tr>
+        </thead>
+        <tbody>
+          {data?.map((daily: TDailyWeather, index: number) => (
+            <WeatherBodyRow className="days row" key={daily.date}>
+              <WeatherBodyDayCell className="day">
+                {formatDate(new Date(daily.date))}
+              </WeatherBodyDayCell>
+              {daily.hourly.map((hourly: THourlyWeather) => (
+                <WeatherBodyInfoCell className="hour" key={hourly.time}>
+                  <div>
+                    <WeatherBodyInfoTempCell
+                      className="temp-container"
+                      temperature={tempFeel(Number(hourly.tempC))}
+                    >
+                      <WeatherBodyInfoTempValue
+                        className={`temp-value ${tempFeel(
+                          Number(hourly.tempC)
+                        )}`}
+                      >
+                        {hourly.tempC}
+                      </WeatherBodyInfoTempValue>
+                      <span className="temp-degree">℃</span>
+                    </WeatherBodyInfoTempCell>
+                    <WeatherBodyInfoSVGWrapper
+                      weather={weatherType(hourly.weatherCode)}
+                    >
+                      {WeatherSVG(weatherType(hourly.weatherCode))}
+                    </WeatherBodyInfoSVGWrapper>
+                  </div>
+                </WeatherBodyInfoCell>
+              ))}
+            </WeatherBodyRow>
+          ))}
+        </tbody>
+      </WeatherTable>
       {error && <div>에러가 발생했습니다.</div>}
       <Update>
         <span>Update: {updateTime.toLocaleString()}</span>

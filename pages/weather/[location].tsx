@@ -83,39 +83,34 @@ const Home: NextPage = () => {
     <Container>
       <WeatherTable>
         <thead>
-          <tr className="times row">
-            <WeatherHeadCell className="time"></WeatherHeadCell>
-            <WeatherHeadCell className="time">0</WeatherHeadCell>
-            <WeatherHeadCell className="time">3</WeatherHeadCell>
-            <WeatherHeadCell className="time">6</WeatherHeadCell>
-            <WeatherHeadCell className="time">9</WeatherHeadCell>
-            <WeatherHeadCell className="time">12</WeatherHeadCell>
-            <WeatherHeadCell className="time">15</WeatherHeadCell>
-            <WeatherHeadCell className="time">18</WeatherHeadCell>
-            <WeatherHeadCell className="time">21</WeatherHeadCell>
+          <tr>
+            <WeatherHeadCell></WeatherHeadCell>
+            <WeatherHeadCell>0</WeatherHeadCell>
+            <WeatherHeadCell>3</WeatherHeadCell>
+            <WeatherHeadCell>6</WeatherHeadCell>
+            <WeatherHeadCell>9</WeatherHeadCell>
+            <WeatherHeadCell>12</WeatherHeadCell>
+            <WeatherHeadCell>15</WeatherHeadCell>
+            <WeatherHeadCell>18</WeatherHeadCell>
+            <WeatherHeadCell>21</WeatherHeadCell>
           </tr>
         </thead>
         <tbody>
           {data?.map((daily: TDailyWeather, index: number) => (
-            <WeatherBodyRow className="days row" key={daily.date}>
-              <WeatherBodyDayCell className="day">
-                {formatDate(new Date(daily.date))}
+            <WeatherBodyRow key={daily.date}>
+              <WeatherBodyDayCell>
+                {formatDate(new Date(daily.date))} {DAYS[index]}
               </WeatherBodyDayCell>
               {daily.hourly.map((hourly: THourlyWeather) => (
-                <WeatherBodyInfoCell className="hour" key={hourly.time}>
+                <WeatherBodyInfoCell key={hourly.time}>
                   <div>
                     <WeatherBodyInfoTempCell
-                      className="temp-container"
                       temperature={tempFeel(Number(hourly.tempC))}
                     >
-                      <WeatherBodyInfoTempValue
-                        className={`temp-value ${tempFeel(
-                          Number(hourly.tempC)
-                        )}`}
-                      >
+                      <WeatherBodyInfoTempValue>
                         {hourly.tempC}
                       </WeatherBodyInfoTempValue>
-                      <span className="temp-degree">℃</span>
+                      <span>℃</span>
                     </WeatherBodyInfoTempCell>
                     <WeatherBodyInfoSVGWrapper
                       weather={weatherType(hourly.weatherCode)}
